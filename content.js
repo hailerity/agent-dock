@@ -1,4 +1,3 @@
-// content.js
 (() => {
   if (window.__FAB_PANEL_INJECTED) return;
   window.__FAB_PANEL_INJECTED = true;
@@ -7,7 +6,9 @@
     const fab = document.createElement("button");
     fab.id = "fab-panel-button";
     fab.setAttribute("aria-label", "Open panel");
-    fab.innerHTML = `<svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="currentColor" d="M11 11V5h2v6h6v2h-6v6h-2v-6H5v-2h6z"/></svg>`; // plus icon
+    fab.innerHTML = `<img src="${chrome.runtime.getURL(
+      "icons/icon.png"
+    )}" alt="Open panel" style="width: 36px; height: 36px; border-radius: 4px;">`;
     document.body.appendChild(fab);
     return fab;
   };
@@ -32,9 +33,9 @@
   };
 
   const createDock = () => {
-    const dock = document.createElement('div');
-    dock.id = 'fab-dock-container';
-    dock.className = 'hidden';
+    const dock = document.createElement("div");
+    dock.id = "fab-dock-container";
+    dock.className = "hidden";
     document.body.appendChild(dock);
     return dock;
   };
@@ -49,7 +50,11 @@
       card.type = "button";
       card.dataset.url = item.url;
       card.title = item.title;
-      const iconHtml = item.icon ? `<img src="${escapeHtml(item.icon)}" alt="${escapeHtml(item.title)}"/>` : escapeHtml((item.title && item.title[0]) || "?");
+      const iconHtml = item.icon
+        ? `<img src="${escapeHtml(item.icon)}" alt="${escapeHtml(
+            item.title
+          )}"/>`
+        : escapeHtml((item.title && item.title[0]) || "?");
       card.innerHTML = `<div class="fab-item-icon" aria-hidden="true">${iconHtml}</div><div class="fab-item-title">${escapeHtml(
         item.title
       )}</div><div class="fab-item-chevron" aria-hidden="true">›</div>`;
@@ -76,20 +81,26 @@
   };
 
   const renderDock = (items) => {
-    const dock = document.getElementById('fab-dock-container');
+    const dock = document.getElementById("fab-dock-container");
     if (!dock) return;
-    dock.innerHTML = '';
-    (items || []).forEach(item => {
-      const btn = document.createElement('button');
-      btn.className = 'fab-dock-item';
-      btn.type = 'button';
-  btn.title = item.title;
-  btn.setAttribute('aria-label', item.title);
-  btn.setAttribute('role', 'button');
-      const iconHtml = item.icon ? `<img src="${escapeHtml(item.icon)}" alt="${escapeHtml(item.title)}"/>` : escapeHtml((item.title && item.title[0]) || '?');
+    dock.innerHTML = "";
+    (items || []).forEach((item) => {
+      const btn = document.createElement("button");
+      btn.className = "fab-dock-item";
+      btn.type = "button";
+      btn.title = item.title;
+      btn.setAttribute("aria-label", item.title);
+      btn.setAttribute("role", "button");
+      const iconHtml = item.icon
+        ? `<img src="${escapeHtml(item.icon)}" alt="${escapeHtml(
+            item.title
+          )}"/>`
+        : escapeHtml((item.title && item.title[0]) || "?");
       btn.innerHTML = iconHtml;
-      btn.addEventListener('click', (e) => {
-        e.preventDefault(); e.stopPropagation(); chrome.runtime.sendMessage({ type: 'navigate', url: item.url });
+      btn.addEventListener("click", (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        chrome.runtime.sendMessage({ type: "navigate", url: item.url });
       });
       dock.appendChild(btn);
     });
@@ -116,14 +127,6 @@
     closeBtn.addEventListener("click", (e) => {
       e.stopPropagation();
       closePanel();
-    });
-  const openSidePanelBtn = panel.querySelector("#fab-panel-open-sidepanel");
-
-  // if (openSidePanelBtn) openSidePanelBtn.addEventListener('click', (e) => { e.stopPropagation(); chrome.runtime.sendMessage({ type: 'open_sidepanel' }); });
-  if (openSidePanelBtn)
-    openSidePanelBtn.addEventListener("click", (e) => {
-      e.stopPropagation();
-      chrome.runtime.sendMessage({ type: "open_sidepanel" });
     });
 
   function positionPanel() {
@@ -191,16 +194,16 @@
     renderGrid(items);
     renderDock(items);
     // show/hide based on display mode
-    const mode = (res && res.fab_display) ? res.fab_display : 'fab';
-    if (mode === 'dock') {
-      fab.style.display = 'none';
-      const dock = document.getElementById('fab-dock-container');
-      if (dock) dock.classList.remove('hidden');
-      panel.classList.remove('open');
+    const mode = res && res.fab_display ? res.fab_display : "fab";
+    if (mode === "dock") {
+      fab.style.display = "none";
+      const dock = document.getElementById("fab-dock-container");
+      if (dock) dock.classList.remove("hidden");
+      panel.classList.remove("open");
     } else {
-      fab.style.display = '';
-      const dock = document.getElementById('fab-dock-container');
-      if (dock) dock.classList.add('hidden');
+      fab.style.display = "";
+      const dock = document.getElementById("fab-dock-container");
+      if (dock) dock.classList.add("hidden");
     }
   });
 
@@ -211,15 +214,17 @@
       renderGrid(items);
       renderDock(items);
     }
-    if (area === 'local' && changes.fab_display) {
-      const mode = changes.fab_display.newValue || 'fab';
-      if (mode === 'dock') {
-        fab.style.display = 'none';
-        panel.classList.remove('open');
-        const dock = document.getElementById('fab-dock-container'); if (dock) dock.classList.remove('hidden');
+    if (area === "local" && changes.fab_display) {
+      const mode = changes.fab_display.newValue || "fab";
+      if (mode === "dock") {
+        fab.style.display = "none";
+        panel.classList.remove("open");
+        const dock = document.getElementById("fab-dock-container");
+        if (dock) dock.classList.remove("hidden");
       } else {
-        fab.style.display = '';
-        const dock = document.getElementById('fab-dock-container'); if (dock) dock.classList.add('hidden');
+        fab.style.display = "";
+        const dock = document.getElementById("fab-dock-container");
+        if (dock) dock.classList.add("hidden");
       }
     }
   });

@@ -1,6 +1,5 @@
-// items-default.js
 (function () {
-  const itemsVersion = 'v4';
+  const itemsVersion = "v4";
 
   const DEFAULT_ITEMS = [
     {
@@ -39,26 +38,23 @@
       url: "https://www.bing.com/chat",
       icon: "https://www.google.com/s2/favicons?sz=64&domain=bing.com",
     },
-    // {
-    //   id: "perplexity",
-    //   title: "Perplexity",
-    //   url: "https://www.perplexity.ai",
-    //   icon: "https://www.perplexity.ai/favicon.ico",
-    // },
   ];
 
   // Initialize storage with defaults if empty
-  chrome.storage?.local?.get(["fab_items", "fab_initialized", "fab_display"], (res) => {
-    if (!res || res.fab_initialized !== itemsVersion) {
-      chrome.storage.local.set({
-        fab_items: DEFAULT_ITEMS,
-        fab_initialized: itemsVersion,
-        fab_display: 'fab',
-        fab_theme: 'auto',
-      });
-    } else if (!res.fab_display) {
-      // ensure there's a display setting
-      chrome.storage.local.set({ fab_display: 'fab' });
+  chrome.storage?.local?.get(
+    ["fab_items", "fab_initialized", "fab_display"],
+    (res) => {
+      if (!res || res.fab_initialized !== itemsVersion) {
+        chrome.storage.local.set({
+          fab_items: DEFAULT_ITEMS,
+          fab_initialized: itemsVersion,
+          fab_display: "fab",
+          fab_theme: "auto",
+        });
+      } else if (!res.fab_display) {
+        // ensure there's a display setting
+        chrome.storage.local.set({ fab_display: "fab" });
+      }
     }
-  });
+  );
 })();

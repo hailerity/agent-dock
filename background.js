@@ -1,4 +1,3 @@
-// background.js
 chrome.runtime.onMessage.addListener(async (msg, sender) => {
   if (msg && msg.type === "navigate") {
     // If message comes from a content script, sender.tab exists
