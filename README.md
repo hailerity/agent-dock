@@ -122,6 +122,12 @@ The extension requires the following permissions:
 - **`sidePanel`**: To display the side panel interface
 - **`<all_urls>`**: To show the FAB/dock on all websites
 
+## TODOs
+
+- [ ] only show on websites in the list
+- [ ] fix UI
+- [ ] switch to tab if already opened
+
 ## 🤝 Contributing
 
 Contributions are welcome! Feel free to:
